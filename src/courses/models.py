@@ -14,10 +14,15 @@ class PublishStatus(models.TextChoices):
     DRAFT = "draft", "Draft"
 
 
+def handle_upload(instance, file_name):
+    return f"{file_name}"
+    
+
+
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    # image
+    image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
     access = models.CharField(
         max_length=25, choices=AccessRequireMent, default=AccessRequireMent.EMAIL_REQUIRED)
 
