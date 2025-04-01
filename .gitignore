@@ -4,9 +4,11 @@
 
 project_structure.txt
 todo.txt
-.jpg
-.jpeg
-.png
+*.jpg
+*.jpeg
+*.png
+*.gif
+
 ### venv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
