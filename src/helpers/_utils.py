@@ -4,7 +4,7 @@ import cloudinary
 
 CLOUDINARY_CLOUD_NAME = config("CLOUDNIARY_CLOUD_NAME", cast=str)
 CLOUDINARY_PUBLIC_API_KEY = config("CLOUDNIARY_API_KEY", cast=str)
-CLOUDINARY_SECRET_KEY = config("CLOUDNIARY_SECRET_KEY")
+CLOUDINARY_SECRET_KEY = config("CLOUDNIARY_SECRET_KEY", cast=str)
 
 
 def cloudinary_init():

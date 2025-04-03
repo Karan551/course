@@ -27,7 +27,7 @@ class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     # image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
-    image = CloudinaryField("image", null=True)
+    image = CloudinaryField("image", null=True, blank=True)
 
     access = models.CharField(
         max_length=25, choices=AccessRequireMent, default=AccessRequireMent.EMAIL_REQUIRED)
