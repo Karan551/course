@@ -18,9 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 
-print("this is base dir parent value::", BASE_DIR.parent)
-print(Path(__file__).parent, "\n")
-print(Path(__file__).resolve().parent.parent)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 

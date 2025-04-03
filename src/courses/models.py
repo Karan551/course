@@ -85,6 +85,12 @@ class Course(models.Model):
 
         #  another method to do this
         # CloudinaryImage(str(self.image)).build_url(width)
-        
+
         img_url = self.image.build_url(**img_options)
         return img_url
+
+
+class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
