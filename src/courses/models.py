@@ -3,6 +3,8 @@ from cloudinary.models import CloudinaryField
 import helpers
 from cloudinary import CloudinaryImage
 from django.utils import timezone
+from django.utils.text import slugify
+import uuid
 
 # Create your models here.
 
@@ -21,6 +23,28 @@ class PublishStatus(models.TextChoices):
     DRAFT = "draft", "Draft"
 
 
+def get_display_name(instance, *args, **kwargs):
+    print("this is instance::", instance)
+    title = instance.title
+    if title:
+        return title
+    return "Course upload"
+
+
+def get_public_id_prefix(instance, *args, **kwargs):
+    title = instance.title
+
+    if title:
+        slug = slugify(title)
+        unique_id = str(uuid.uuid4()).replace("-", "")[:5]
+        return f"course/{slug}-{unique_id}"
+
+    if instance.id:
+        return f"course/{instance.id}"
+
+    return "Course Uploaded"
+
+
 def handle_upload(instance, file_name):
     return f"{file_name}"
 
@@ -29,7 +53,13 @@ class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     # image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
-    image = CloudinaryField("image", null=True, blank=True)
+    image = CloudinaryField("image",
+                            null=True,
+                            blank=True,
+                            display_name=get_display_name,
+                            public_id_prefix=get_public_id_prefix,
+                            tags=["course", "thumbnail"]
+                            )
 
     access = models.CharField(
         max_length=25, choices=AccessRequireMent, default=AccessRequireMent.EMAIL_REQUIRED)
@@ -114,4 +144,4 @@ class Lesson(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["order","-updated_at"]
+        ordering = ["order", "-updated_at"]
