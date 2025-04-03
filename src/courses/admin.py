@@ -10,8 +10,14 @@ admin.site.index_title = "Course Site administration"
 admin.site.site_title = "Admin Panel"
 
 
+class LessonInline(admin.StackedInline):
+    model = Lesson
+    extra=0
+
+
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
+    inlines=[LessonInline]
     list_display = ["title", "status", "access"]
     list_filter = ["status", "access"]
 
@@ -26,6 +32,3 @@ class CourseAdmin(admin.ModelAdmin):
         return format_html(f"<img src={img_url} alt={obj.image}/>")
 
     display_image.short_description = "Current Image"
-
-
-admin.site.register(Lesson)
