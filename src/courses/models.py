@@ -2,6 +2,7 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 import helpers
 from cloudinary import CloudinaryImage
+from django.utils import timezone
 
 # Create your models here.
 
@@ -35,6 +36,9 @@ class Course(models.Model):
 
     status = models.CharField(
         max_length=25, choices=PublishStatus, default=PublishStatus.DRAFT)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @property
     def is_published(self):
@@ -97,6 +101,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    order = models.IntegerField(default=0)
     thumbnail = CloudinaryField("image", null=True, blank=True)
     video = CloudinaryField("video", blank=True,
                             null=True, resource_type="video")
@@ -104,3 +109,9 @@ class Lesson(models.Model):
                                       help_text="If user does not have access this course.Can they see this ?")
     status = models.CharField(
         max_length=50, choices=PublishStatus, default=PublishStatus.PUBLISHED)
+
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["order","-updated_at"]

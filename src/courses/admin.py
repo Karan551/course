@@ -12,19 +12,20 @@ admin.site.site_title = "Admin Panel"
 
 class LessonInline(admin.StackedInline):
     model = Lesson
-    extra=0
+    extra = 0
+    readonly_fields = ["updated_at"]
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    inlines=[LessonInline]
+    inlines = [LessonInline]
     list_display = ["title", "status", "access"]
     list_filter = ["status", "access"]
 
     fields = ["title", "description", "status",
               "image", "access", "display_image"]
 
-    readonly_fields = ["display_image"]
+    readonly_fields = ["display_image", "created_at", "updated_at"]
 
     def display_image(self, obj, *args, **kwargs):
         img_url = obj.image_admin_url
