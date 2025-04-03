@@ -89,8 +89,15 @@ class Course(models.Model):
         img_url = self.image.build_url(**img_options)
         return img_url
 
+    def __str__(self):
+        return self.title
+
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    can_preview = models.BooleanField(default=False,
+                                      help_text="If user does not have access this course.Can they see this ?")
+    status = models.CharField(
+        max_length=50, choices=PublishStatus, default=PublishStatus.PUBLISHED)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course
+from .models import Course, Lesson
 from django.utils.html import format_html
 from cloudinary import CloudinaryImage
 
@@ -26,3 +26,6 @@ class CourseAdmin(admin.ModelAdmin):
         return format_html(f"<img src={img_url} alt={obj.image}/>")
 
     display_image.short_description = "Current Image"
+
+
+admin.site.register(Lesson)
