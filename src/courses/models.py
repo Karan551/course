@@ -23,6 +23,17 @@ class PublishStatus(models.TextChoices):
     DRAFT = "draft", "Draft"
 
 
+def genertate_public_id(instance, *args, **kwargs):
+    title = instance.title 
+    unique_id = str(uuid.uuid4()).replace("-", "")
+    if not title:
+        return unique_id
+
+    short_unique_id = unique_id[:5]
+    slug = slugify(title)
+    return f"course/{slug}-{short_unique_id}"
+
+
 def get_display_name(instance, *args, **kwargs):
     print("this is instance::", instance)
     title = instance.title
@@ -52,6 +63,8 @@ def handle_upload(instance, file_name):
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    public_id = models.CharField(max_length=150, null=True, blank=True)
+
     # image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
     image = CloudinaryField("image",
                             null=True,
@@ -69,6 +82,12 @@ class Course(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.public_id:
+            self.public_id = genertate_public_id(self)
+
+        super().save(*args, **kwargs)
 
     @property
     def is_published(self):
@@ -129,8 +148,9 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    public_id = models.CharField(max_length=150, null=True, blank=True)
     order = models.IntegerField(default=0)
     thumbnail = CloudinaryField("image", null=True, blank=True)
     video = CloudinaryField("video", blank=True,
@@ -142,6 +162,12 @@ class Lesson(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.public_id:
+            self.public_id = genertate_public_id(self)
+
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["order", "-updated_at"]

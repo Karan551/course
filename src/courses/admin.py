@@ -13,7 +13,7 @@ admin.site.site_title = "Admin Panel"
 class LessonInline(admin.StackedInline):
     model = Lesson
     extra = 0
-    readonly_fields = ["updated_at"]
+    readonly_fields = ["updated_at","public_id"]
 
 
 @admin.register(Course)
@@ -22,10 +22,10 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ["title", "status", "access"]
     list_filter = ["status", "access"]
 
-    fields = ["title", "description", "status",
+    fields = ["public_id","title", "description", "status",
               "image", "access", "display_image"]
 
-    readonly_fields = ["display_image", "created_at", "updated_at"]
+    readonly_fields = ["display_image", "created_at", "updated_at","public_id"]
 
     def display_image(self, obj, *args, **kwargs):
         img_url = obj.image_admin_url
