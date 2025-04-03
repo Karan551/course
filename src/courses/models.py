@@ -1,6 +1,7 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 import helpers
+from cloudinary import CloudinaryImage
 
 # Create your models here.
 
@@ -38,3 +39,52 @@ class Course(models.Model):
     @property
     def is_published(self):
         return self.status == PublishStatus.PUBLISHED
+
+    @property
+    def image_admin_url(self):
+
+        if not self.image:
+            return ""
+
+        return CloudinaryImage(str(self.image)).build_url(width=500)
+
+    def get_image_thumbnail(self, as_html=False, width=500):
+
+        if not self.image:
+            return ""
+        img_options = {
+            "width": width
+        }
+        if as_html:
+
+            # another method to do this
+            # CloudinaryImage(str(self.image)).image(**img_options)
+
+            return self.image.image(**img_options)
+
+        #  another method to do this
+        # CloudinaryImage(str(self.image)).build_url(width)
+        img_url = self.image.build_url(width)
+        return img_url
+
+    def get_image_detail(self, as_html=False, width=750):
+
+        if not self.image:
+            return ""
+
+        img_options = {
+            "width": width
+        }
+
+        if as_html:
+
+            # another method to do this
+            # CloudinaryImage(str(self.image)).image(width)
+
+            return self.image.image(**img_options)
+
+        #  another method to do this
+        # CloudinaryImage(str(self.image)).build_url(width)
+        
+        img_url = self.image.build_url(**img_options)
+        return img_url

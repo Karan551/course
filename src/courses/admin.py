@@ -21,13 +21,8 @@ class CourseAdmin(admin.ModelAdmin):
     readonly_fields = ["display_image"]
 
     def display_image(self, obj, *args, **kwargs):
-        url = obj.image.url
-        cloudinary_id = str(obj.image)
-        cloudinary_html = obj.image.image(width=500)
+        img_url = obj.image_admin_url
 
-        # this is another method to change image size
-        cloudinary_html_2 = CloudinaryImage(cloudinary_id).image(width=500)
-
-        return format_html(cloudinary_html_2)
+        return format_html(f"<img src={img_url} alt={obj.image}/>")
 
     display_image.short_description = "Current Image"
