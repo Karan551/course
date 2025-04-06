@@ -131,7 +131,6 @@ class Course(models.Model):
     def is_published(self):
         return self.status == PublishStatus.PUBLISHED
 
-
     def __str__(self):
         return self.title
 
@@ -153,6 +152,7 @@ class Lesson(models.Model):
                             null=True,
                             public_id_prefix=get_public_id_prefix,
                             display_name=get_display_name,
+                            type="private",
                             tags=["video", "lesson"],
                             resource_type="video")
     can_preview = models.BooleanField(default=False,
