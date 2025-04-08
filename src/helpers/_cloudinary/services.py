@@ -23,9 +23,14 @@ def get_cloudinary_video_object(instance,
                                 field_name="video",
                                 width=None,
                                 height=None,
-                                sign_url=False,
+                                sign_url=False,  # True For private videos
                                 fetch_format="auto",
-                                resource_type="video", quality="auto"):
+                                resource_type="video",
+                                controls=True,
+                                autoplay=True,
+                                poster=None,
+                           
+                                quality="auto"):
     if not hasattr(instance, "video"):
         return None
 
@@ -36,7 +41,11 @@ def get_cloudinary_video_object(instance,
     video_options = {
         "sign_url": sign_url,
         "quality": quality,
-        "fetch_format": fetch_format
+        "fetch_format": fetch_format,
+        "controls": controls,
+        "autoplay": autoplay,
+        "poster": poster,
+        # "muted": muted
 
     }
 
@@ -49,8 +58,15 @@ def get_cloudinary_video_object(instance,
     if height and width:
         video_options["crop"] = "limit"
 
+    video_url = video_object.build_url(**video_options)
     if as_html:
+        video_html = f"""
+        <video controls={controls} autoplay={autoplay} poster={poster}>
+            <source type="video/mp4" src={video_url} />
+        <source type="video/ogg" src={video_url} />
+            </video>
+            """
+        return video_html.format(video_url=video_url).strip()
         return video_object.video(**video_options)
 
-    url = video_object.build_url(**video_options)
-    return url
+    return video_url
