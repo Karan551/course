@@ -32,14 +32,10 @@ class LessonInline(admin.StackedInline):
 
     def display_video(self, obj, *args, **kwargs):
         video_url = get_cloudinary_video_object(
-            obj, field_name="video", sign_url=False, width=600, height=600)
+            obj, field_name="video", sign_url=False, width=600, height=600, as_html=True)
 
-        return format_html(f"""
-                <video controls muted>
-                    <source type="video/mp4" src={video_url} />
-                    <source type="video/ogg" src={video_url} />
-                </video>
-                           """)
+        
+        return video_url
 
     display_video.short_description = "Video"
 

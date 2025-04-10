@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOCAL_CDN = BASE_DIR.parent / "local-cdn"
 
+TEMPLATE_DIR = BASE_DIR/"templates"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -60,7 +61,9 @@ ROOT_URLCONF = 'course_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            TEMPLATE_DIR
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +133,9 @@ MEDIA_ROOT = LOCAL_CDN / "media"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# cloudinary video config
+CLOUDINARY_CLOUD_NAME = config("CLOUDNIARY_CLOUD_NAME", cast=str)
+CLOUDINARY_PUBLIC_API_KEY = config("CLOUDNIARY_API_KEY", cast=str)
+CLOUDINARY_SECRET_KEY = config("CLOUDNIARY_SECRET_KEY", cast=str)

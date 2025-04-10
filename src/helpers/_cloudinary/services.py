@@ -1,3 +1,7 @@
+from django.conf import settings
+from django.template.loader import get_template
+
+
 def get_cloudinary_image_object(instance, field_name="image", as_html=False, width=1200):
 
     if not hasattr(instance, field_name):
@@ -29,7 +33,7 @@ def get_cloudinary_video_object(instance,
                                 controls=True,
                                 autoplay=True,
                                 poster=None,
-                           
+
                                 quality="auto"):
     if not hasattr(instance, "video"):
         return None
@@ -60,13 +64,14 @@ def get_cloudinary_video_object(instance,
 
     video_url = video_object.build_url(**video_options)
     if as_html:
-        video_html = f"""
-        <video controls={controls} autoplay={autoplay} poster={poster}>
-            <source type="video/mp4" src={video_url} />
-        <source type="video/ogg" src={video_url} />
-            </video>
-            """
-        return video_html.format(video_url=video_url).strip()
-        return video_object.video(**video_options)
+        template_name = "videos/snippets/embed.html"
+        tmpl = get_template(template_name)
+
+        cloud_name = settings.CLOUDINARY_CLOUD_NAME
+        _html = tmpl.render(
+            {"video_url": video_url, "cloud_name": cloud_name
+             })
+
+        return _html
 
     return video_url
