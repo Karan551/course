@@ -1,8 +1,16 @@
-<video controls  data-cloud-name="{{ cloud_name }}">
+<video id="demo-player"
+ controls 
+ data-cloud-name="{{ cloud_name }}"
+ data-video-url="{{video_url}}"
+ >
+  <source src="{{video_url}}" type="video/mp4" />
+</video>
 
+<script>
+  const videoPlayer = document.getElementById("demo-player");
 
-    <source src="{{video_url}}" type="video/mp4" />
-  
-   
-   
-  </video>
+  if (videoPlayer) {
+    const cloudName = videoPlayer.dataset;
+    console.log("this is cloudname::", cloudName);
+  }
+</script>
