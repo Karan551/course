@@ -136,7 +136,8 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="lessons")
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     public_id = models.CharField(max_length=150, null=True, blank=True)
@@ -180,7 +181,7 @@ class Lesson(models.Model):
 
     def get_display_name(self):
         return f"{self.title}-{self.course.get_display_name()}"
-    
+
     def __str__(self):
         return f"{self.course.title} Course -{self.title}"
 
