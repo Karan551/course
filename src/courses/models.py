@@ -180,6 +180,9 @@ class Lesson(models.Model):
 
     def get_display_name(self):
         return f"{self.title}-{self.course.get_display_name()}"
+    
+    def __str__(self):
+        return f"{self.course.title} Course -{self.title}"
 
     class Meta:
         ordering = ["order", "-updated_at"]

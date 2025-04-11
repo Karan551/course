@@ -35,10 +35,14 @@ def get_cloudinary_video_object(instance,
                                 poster=None,
 
                                 quality="auto"):
+
     if not hasattr(instance, "video"):
         return None
 
-    video_object = getattr(instance, "video")
+    if not instance.resource_type == "video":
+        return None
+
+    video_object = getattr(instance, field_name)
     if not video_object:
         return None
 
@@ -70,7 +74,7 @@ def get_cloudinary_video_object(instance,
         cloud_name = settings.CLOUDINARY_CLOUD_NAME
         _html = tmpl.render(
             {"video_url": video_url, "cloud_name": cloud_name,
-             "base_color":"#047841"
+             "base_color": "#047841"
              })
 
         return _html
