@@ -1,16 +1,38 @@
-<video id="demo-player"
- controls 
- data-cloud-name="{{ cloud_name }}"
- data-video-url="{{video_url}}"
- >
+<link
+  href="https://cdn.jsdelivr.net/npm/cloudinary-video-player/dist/cld-video-player.min.css"
+  rel="stylesheet"
+/>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/cloudinary-video-player/dist/cld-video-player.min.js"
+  type="text/javascript"
+></script>
+
+<video
+  id="demo-player"
+  controls
+  data-cloud-name="{{ cloud_name }}"
+  data-video-url="{{video_url}}"
+  
+  data-cld-colors='{ "base": "{% if base_color %} {{base_color}} {% else %}#ff0214{% endif %}", "accent": "#db8226", "text": "#fff" }'
+  class="cld-video-player cld-video-player-skin-light cld-fluid" 
+
+>
   <source src="{{video_url}}" type="video/mp4" />
 </video>
 
 <script>
-  const videoPlayer = document.getElementById("demo-player");
+  const videoPlayerId = "demo-player";
+  const videoPlayerElement = document.getElementById("demo-player");
 
-  if (videoPlayer) {
-    const cloudName = videoPlayer.dataset;
-    console.log("this is cloudname::", cloudName);
+  if (videoPlayerElement) {
+    const cloudName = videoPlayerElement.dataset.cloudName;
+    const videoUrl = videoPlayerElement.dataset.videoUrl;
+
+   const  cld=cloudinary.videoPlayer(videoPlayerId, {
+      cloudName: cloudName,
+    });
+
+    cld.source(videoUrl)
   }
 </script>
