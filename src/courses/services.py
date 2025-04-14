@@ -22,7 +22,7 @@ def get_course_detail(course_id=None):
 def get_lesson_list(course_id=None):
 
     if not course_id:
-       return None
+        return None
 
     course = Course.objects.get(id=course_id, status=PublishStatus.PUBLISHED)
 
@@ -43,19 +43,17 @@ def get_lesson_list(course_id=None):
 
 def get_lesson_detail(course_id=None, lesson_id=None):
 
-    if not course_id or lesson_id:
+    if not (course_id or lesson_id):
         return None
 
     lesson = None
     try:
         lesson = Lesson.objects.get(
-            course___id=course_id,
+            course__id=course_id,
             course__status=PublishStatus.PUBLISHED,
             id=lesson_id,
             status=PublishStatus.PUBLISHED
         )
-
     except Exception as e:
         print("Error in Lesson Detail::", e)
-
     return lesson
