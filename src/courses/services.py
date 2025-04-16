@@ -12,7 +12,7 @@ def get_course_detail(course_id=None):
     response = None
     try:
         response = Course.objects.get(
-            id=course_id, status=PublishStatus.PUBLISHED)
+            public_id=course_id, status=PublishStatus.PUBLISHED)
     except Exception as e:
         print("Error in course detail function::", e)
 

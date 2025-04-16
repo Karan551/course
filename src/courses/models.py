@@ -91,7 +91,7 @@ def handle_upload(instance, file_name):
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    public_id = models.CharField(max_length=150, null=True, blank=True)
+    public_id = models.CharField(max_length=150, null=True, blank=True,db_index=True)
 
     # image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
     image = CloudinaryField("image",
@@ -140,7 +140,7 @@ class Lesson(models.Model):
         Course, on_delete=models.CASCADE, related_name="lessons")
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    public_id = models.CharField(max_length=150, null=True, blank=True)
+    public_id = models.CharField(max_length=150, null=True, blank=True,db_index=True)
     order = models.IntegerField(default=0)
     thumbnail = CloudinaryField("image",
                                 public_id_prefix=get_public_id_prefix,

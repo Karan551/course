@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from .services import get_publish_course, get_course_detail, get_lesson_list, get_lesson_detail
 # Create your views here.
 
-
+# 36- completed
 def homepage_view(request):
     return HttpResponse("<h1 style='color:blue;'>Django Course Project.</h1>")
 
@@ -14,7 +14,7 @@ def course_list_view(request):
         "courses": queryset
     }
  
-    return JsonResponse({"msg": "success", "data": [x.id for x in queryset]})
+    return JsonResponse({"msg": "success", "data": [x.path for x in queryset]})
     return render(request, "courses/course_list.html", context)
 
 
@@ -29,7 +29,7 @@ def course_detail_view(request, course_id):
         "course_obj": course_obj
     }
 
-    return JsonResponse({"msg": "success", "course_id": course_obj.id,"lesson_ids":[x.title for x in course_obj.lessons.all()]})
+    return JsonResponse({"msg": "success", "course_id": course_obj.id,"lesson_ids":[x.path for x in course_obj.lessons.all()]})
     return render(request, "courses/course_detail.html", context)
 
 
