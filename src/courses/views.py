@@ -5,7 +5,7 @@ from .services import get_publish_course, get_course_detail, get_lesson_list, ge
 
 # 36- completed
 def homepage_view(request):
-    return HttpResponse("<h1 style='color:blue;'>Django Course Project.</h1>")
+    return render(request,"home.html")
 
 
 def course_list_view(request):
