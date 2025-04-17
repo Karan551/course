@@ -11,10 +11,10 @@ def homepage_view(request):
 def course_list_view(request):
     queryset = get_publish_course()
     context = {
-        "courses": queryset
+        "courses_lists": queryset
     }
  
-    return JsonResponse({"msg": "success", "data": [x.path for x in queryset]})
+    # return JsonResponse({"msg": "success", "data": [x.path for x in queryset]})
     return render(request, "courses/course_list.html", context)
 
 
