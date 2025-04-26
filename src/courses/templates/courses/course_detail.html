@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Course Detail | {{block.super}}
+
+{% endblock title %}
+
+{% block content %}
+{{course.title}}
+
+{% include 'courses/snippets/list-display.html'  with queryset=lessons %}
+{% endblock content %}

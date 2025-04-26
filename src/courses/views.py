@@ -26,10 +26,11 @@ def course_detail_view(request, course_id):
         return Http404
 
     context = {
-        "course_obj": course_obj
+        "course": course_obj,
+        "lessons":course_obj.lessons.all()
     }
 
-    return JsonResponse({"msg": "success", "course_id": course_obj.id,"lesson_ids":[x.path for x in course_obj.lessons.all()]})
+    # return JsonResponse({"msg": "success", "course_id": course_obj.id,"lesson_ids":[x.path for x in course_obj.lessons.all()]})
     return render(request, "courses/course_detail.html", context)
 
 

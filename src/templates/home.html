@@ -5,5 +5,7 @@ Home Page  {{block.super}}
 
 {% block content %}
 <h1>Hello World</h1>
-
+<div class="m-4">
+<a href="{% url 'course_list' %}" class="px-6  py-4 inline-block bg-teal-500 hover:bg-teal-700 text-white font-semibold text-2xl rounded-xl">course List</a>
+</div>
 {% endblock content %}

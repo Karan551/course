@@ -8,9 +8,13 @@ Course List | {{block.super}}
 
 {% block content %}
 
+<div class="m-4">
+    <a href="{% url 'homepage' %}" class="px-6  py-4 inline-block bg-teal-500 hover:bg-teal-700 text-white font-semibold text-2xl rounded-xl">Back To Home</a>
+    </div>
+
 <ul class="list-disc" >
 {% for course in courses_lists %}
-
+<p>{{course.get_absolute_url}}</p>
     <li>
         <a href="{{course.get_absolute_url}}" class="text-blue-500 hover:text-blue-800 hover:underline">
             {{course.title}}

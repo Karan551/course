@@ -31,7 +31,7 @@ def genertate_public_id(instance, *args, **kwargs):
 
     short_unique_id = unique_id[:5]
     slug = slugify(title)
-    return f"course/{slug}-{short_unique_id}"
+    return f"{slug}-{short_unique_id}"
 
 
 def get_display_name(instance, *args, **kwargs):
@@ -71,18 +71,6 @@ def get_public_id_prefix(instance, *args, **kwargs):
 
     return f"{model_name_slug}/{public_id}"
 
-    # title = instance.title
-
-    # if title:
-    #     slug = slugify(title)
-    #     unique_id = str(uuid.uuid4()).replace("-", "")[:5]
-    #     return f"course/{slug}-{unique_id}"
-
-    # if instance.id:
-    #     return f"course/{instance.id}"
-
-    # return "Course Uploaded"
-
 
 def handle_upload(instance, file_name):
     return f"{file_name}"
@@ -91,7 +79,8 @@ def handle_upload(instance, file_name):
 class Course(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    public_id = models.CharField(max_length=150, null=True, blank=True,db_index=True)
+    public_id = models.CharField(
+        max_length=150, null=True, blank=True, db_index=True)
 
     # image = models.ImageField(blank=True, null=True, upload_to=handle_upload)
     image = CloudinaryField("image",
@@ -140,7 +129,8 @@ class Lesson(models.Model):
         Course, on_delete=models.CASCADE, related_name="lessons")
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    public_id = models.CharField(max_length=150, null=True, blank=True,db_index=True)
+    public_id = models.CharField(
+        max_length=150, null=True, blank=True, db_index=True)
     order = models.IntegerField(default=0)
     thumbnail = CloudinaryField("image",
                                 public_id_prefix=get_public_id_prefix,
@@ -167,7 +157,8 @@ class Lesson(models.Model):
     def save(self, *args, **kwargs):
         if not self.public_id:
             self.public_id = genertate_public_id(self)
-
+        else:
+            print("public id already exists.")
         super().save(*args, **kwargs)
 
     @property
